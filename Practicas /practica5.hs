@@ -109,29 +109,29 @@ maximo (x:xs) = max x (maximo xs)
 
 --Inciso d 
 sumarN :: Integer -> [Integer] -> [Integer]
-sumarN n xs | xs == [] = [] 
-            | otherwise = [(head xs) + n] ++ sumarN n (tail xs)
+sumarN n (x:xs) | xs == [] = [] 
+                | otherwise = [(x) + n] ++ sumarN n (xs)
 
 --Inciso e
 sumarElPrimero :: [Integer] -> [Integer]
-sumarElPrimero xs = sumarN (head xs) xs 
+sumarElPrimero (x:xs) = sumarN (x) (x:xs) 
 
 --Inciso f
 sumarElUltimo :: [Integer] -> [Integer]
-sumarElUltimo xs = sumarN (last xs) xs
+sumarElUltimo (x:xs) = sumarN (last (x:xs)) xs
 
 --Inciso g
 pares :: [Integer] -> [Integer]
-pares xs | xs == [] = []
-         | par (head xs) = [head xs] ++ pares (tail xs)
-         | otherwise = pares (tail xs)
-         where par k = if mod k 2 == 0 then True else False 
+pares (x:xs) | xs == [] = []
+             | par (x) = [x] ++ pares (xs)
+             | otherwise = pares (xs)
+              where par k = if mod k 2 == 0 then True else False 
 
 --Inciso h 
 multiplosDeN :: Integer -> [Integer] -> [Integer]
-multiplosDeN n xs | xs == [] = []
-                  | divide (head xs) n = [head xs] ++ multiplosDeN n (tail xs)
-                  | otherwise = multiplosDeN n (tail xs)
+multiplosDeN n (x:xs) | xs == [] = []
+                  | divide (x) n = [x] ++ multiplosDeN n (xs)
+                  | otherwise = multiplosDeN n (xs)
                   where divide k l = if mod k l == 0 then True else False 
 
 --Inciso i 
@@ -142,4 +142,45 @@ ordenar xs | xs == [] = []
 --Ejercicio 4 
 sacarBlancosRepetidos :: String -> String
 sacarBlancosRepetidos s | todosDistintos s = s 
-                        | 
+                        
+--Ejercicio 5 
+
+--Inciso a
+nat2bin :: Integer -> [Integer]
+nat2bin n | n == 1 = [1]
+          | otherwise = nat2bin (div n 2) ++ [mod n 2]  
+
+--Inciso b
+--Chequear porque esto tira non-exhaustive patterns 
+bin2nat :: [Integer] -> Integer
+bin2nat (x:xs) | (x:xs) == [] = 0 
+               | x == 1 = 2^(longitud (x:xs) - 1) + bin2nat xs 
+               | otherwise = bin2nat xs
+
+bin2nat' :: [Integer] -> Integer
+bin2nat' xs  | xs == [] = 0 
+             | head xs == 1 = 2^(longitud xs - 1) + bin2nat' (tail xs)
+             | otherwise = bin2nat' (tail xs)
+
+--Inciso c 
+
+nat2hex :: Integer -> [Char]
+nat2hex n | n == 0 = []
+          | otherwise = nat2hex (div n 16) ++ [hexa!!(fromIntegral(mod n 16))]
+         where hexa = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
+
+--Inciso d 
+
+--Definimos la sumatoria:
+suma :: (Num t) => [t] -> t
+suma [] = 0 
+suma (x:xs) = x + suma xs 
+
+
+sumaAcumulada :: (Num t) => [t] -> [t]
+sumaAcumulada xs = [suma(take l xs) | l <- [1,2..longitud(xs)]]
+
+--Inciso e 
+
+
+
