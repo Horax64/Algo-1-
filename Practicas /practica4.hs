@@ -78,11 +78,16 @@ parteEntera n | n < 1 && n >= 0 = 0
               | n >= 1 = parteEntera (n-1) + 1
               | otherwise = parteEntera (n+1) - 1
          
---Ejercicio 3 
-esDivisible :: Integer -> Integer -> Bool
-esDivisible 0 _ = True
-esDivisible (-1) _ = False 
-esDivisible n m = True && (esDivisible (n-m) m) 
+--Ejercicio 3
+
+absoluto :: Integer -> Integer 
+absoluto n = if n < 0 then -n else n 
+
+esDivisible :: Integer -> Integer -> Bool 
+esDivisible n m | n == 0 = True
+                | absoluto n < absoluto m = False     
+                | n < 0 || m < 0 =  esDivisible (absoluto n) (absoluto m)
+                | otherwise = esDivisible (n-m) m
 
 --Ejercicio 4
 sumaImpares :: Integer -> Integer 
@@ -115,11 +120,13 @@ iesimoDigito :: Integer -> Integer -> Integer
 iesimoDigito n i = mod (div n (10^(cantDigitos n - i))) 10
 
 --Ejercicio 9
-{-
+capAux :: Integer -> Integer 
+capAux n = n - (iesimoDigito n 1)*(10^(cantDigitos n - 1))
+
 esCapicua :: Integer -> Bool 
-esCapicua n | (iesimoDigito n 1) /= (iesimoDigito n (cantDigitos n)) = False
-            | otherwise = esCapicua ()
--}
+esCapicua n | n < 10 = True
+            | iesimoDigito n 1 /= iesimoDigito n (cantDigitos n) = False
+            | otherwise = esCapicua (mod (capAux n) 10)
 
 --Ejercicio 10
 
@@ -192,4 +199,30 @@ sumaRacionales n m = sumaInterna n m + sumaInterna (n-1) m
 --Ejercicio 16 
 
 --Inciso a 
+menorDivisor :: Integer -> Integer
+menorDivisor n | min n (menorDivisorAux n (n-1)) 
+
+
+menorDivisorAux :: Integer -> Integer -> Integer
+menorDivisorAux x y | maximoDivisorHasta x y 
+
+maximoDivisorHasta :: Integer -> Integer -> Integer 
+maximoDivisorHasta n k | k == 1 = 1 
+                       | esDivisible n k = k
+                       | otherwise = maximoDivisorHasta n (k-1)
+
+--Ejercicio 18
+--Funcion auxiliar 
+par :: Integer -> Bool
+par a = mod a 2 == 0
+
+
+mayorDigitoPar :: Integer -> Integer 
+mayorDigitoPar n | n == 0 = -1
+                 | par (ultimo) = max (ultimo) (mayorDigitoPar (resto))
+                 | otherwise = mayorDigitoPar (resto)
+                 where ultimo  = mod n 10 
+                       resto   = div n 10  
+
+--Ejercicio 19
 
