@@ -153,8 +153,8 @@ nat2bin n | n == 1 = [1]
 --Inciso b
 --Chequear porque esto tira non-exhaustive patterns 
 bin2nat :: [Integer] -> Integer
-bin2nat (x:xs) | (x:xs) == [] = 0 
-               | x == 1 = 2^(longitud (x:xs) - 1) + bin2nat xs 
+bin2nat [] = 0  
+bin2nat (x:xs) |  x == 1 = 2^(longitud (x:xs) - 1) + bin2nat xs 
                | otherwise = bin2nat xs
 
 bin2nat' :: [Integer] -> Integer
