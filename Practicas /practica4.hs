@@ -199,17 +199,51 @@ sumaRacionales n m = sumaInterna n m + sumaInterna (n-1) m
 --Ejercicio 16 
 
 --Inciso a 
+menorDivisorHastaDesde :: Integer -> Integer -> Integer -> Integer
+menorDivisorHastaDesde n k l | k == l = k 
+                             | esDivisible n l = l 
+                             | otherwise = menorDivisorHastaDesde n k (l+1)
+
 menorDivisor :: Integer -> Integer
-menorDivisor n | min n (menorDivisorAux n (n-1)) 
+menorDivisor n = menorDivisorHastaDesde n n 2
 
+--Inciso b
 
-menorDivisorAux :: Integer -> Integer -> Integer
-menorDivisorAux x y | maximoDivisorHasta x y 
-
+esPrimo :: Integer -> Bool
+esPrimo n | menorDivisor n == n = True 
+          | otherwise = False 
+           
+--Inciso c
 maximoDivisorHasta :: Integer -> Integer -> Integer 
 maximoDivisorHasta n k | k == 1 = 1 
-                       | esDivisible n k = k
+                       | esDivisible n k = k 
                        | otherwise = maximoDivisorHasta n (k-1)
+
+
+sonCoPrimos :: Integer -> Integer -> Bool 
+sonCoPrimos n m | esPar n && esPar m = False
+                | n>=m || esDivisible n m = False 
+                | m>=n || esDivisible m n = False 
+                
+--Inciso d
+ 
+
+mayorPrimoHasta :: Integer -> Integer -> Integer 
+mayorPrimoHasta n k | k == 1 = 2          
+                    | esPrimo k = k
+
+enesimoPrimo :: Integer -> Integer
+enesimoPrimo n = mayorPrimoHasta n n
+
+--Ejercicio 17 
+
+esFibonacciAux :: Integer -> Integer -> Bool 
+esFibonacciAux n k | fibonacci k > n = False 
+                   | fibonacci k == n = True
+                   | otherwise = esFibonacciAux n (k+1)
+
+esFibonacci :: Integer -> Bool 
+esFibonacci n = esFibonacciAux n 1
 
 --Ejercicio 18
 --Funcion auxiliar 
@@ -224,5 +258,12 @@ mayorDigitoPar n | n == 0 = -1
                  where ultimo  = mod n 10 
                        resto   = div n 10  
 
---Ejercicio 19
+{-Ejercicio 19
+sumaPrimos :: Integer -> Integer
+sumaPrimos n | n == 1 = 2 
+             | otherwise = 
+-}
 
+--Ejercicio 21 
+pitagoras :: Integer -> Integer -> Integer -> Integer 
+pitagoras m n r 
